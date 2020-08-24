@@ -1,7 +1,5 @@
-pub mod repositorie;
 pub mod algebra;
-pub mod light;
-
+mod _utils;
 
 
 #[cfg(test)]
