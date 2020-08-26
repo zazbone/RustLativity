@@ -2,3 +2,6 @@
 
 /// Set of traits which are necessary for some generic type definition
 pub mod traits;
+
+/// Set of physics Constants
+pub mod constants;

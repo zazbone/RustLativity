@@ -1,4 +1,3 @@
-use crate::algebra::quad::QuadVector;
-
-
-pub struct LorentzMatrix();
+pub struct LorentzMatrix<T> {
+    pub content: [[T; 4]; 4]
+}

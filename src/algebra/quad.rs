@@ -25,7 +25,7 @@ pub struct QuadVector<T> {
 }
 
 
-pub trait Accessor<T> {
+pub trait Getters<T> {
     fn w(&self) -> T;
 
     fn x(&self) -> T;
@@ -48,7 +48,7 @@ pub trait LinearAlgebra<T> {
 }
 
 
-impl<T> Accessor<T> for QuadVector<T> where
+impl<T> Getters<T> for QuadVector<T> where
     T: Copy
 {
     fn w(&self) -> T {
