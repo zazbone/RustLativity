@@ -12,4 +12,4 @@ Limited by whitch ones is contained in [special relativity Wikipedia page](https
 
 ## Build
 Current build status is fail, (current commit litterally fail to build).
-Stability will not be garanted util first release, because the crate not contain enouth features to be considered as usable.
+Stability will not be garanted until first release, because the crate not contain enouth features to be considered as stable.

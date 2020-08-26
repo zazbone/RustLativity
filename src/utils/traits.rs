@@ -70,7 +70,7 @@ mod tests {
 
 
     #[test]
-    fn f64_sqrt() {
+    fn float_sqrt() {
         let x: f64 = 2.0;
         let sqrt_x = match x.generic_sqrt() {
             Ok(value) => value,
@@ -81,39 +81,57 @@ mod tests {
             1.414f64,
             10e-2f64
         );
-    }
 
-    #[test]
-    #[should_panic]
-    fn f64_sqrt_err() {
-        let y: f64 = -1.0;
-        let _sqrt_y = match y.generic_sqrt() {
-            Ok(value) => value,
-            Err(_) => panic!("Invalid value for sqrt")
-        };
-    }
-
-    #[test]
-    fn f32_sqrt() {
-        let x: f32 = 2.0;
+        let x: f32 = 4233.39024;
         let sqrt_x = match x.generic_sqrt() {
             Ok(value) => value,
             Err(_) => panic!("Invalid value for sqrt")
         };
         assert_approx_eq!(
             sqrt_x,
-            1.414f32,
+            65.0645f32,
             10e-2f32
         );
     }
 
     #[test]
     #[should_panic]
-    fn f32_sqrt_err() {
+    fn float_sqrt_err() {
+        let y: f64 = -1.0;
+        let _sqrt_y = match y.generic_sqrt() {
+            Ok(value) => value,
+            Err(_) => panic!("Invalid value for sqrt")
+        };
+
         let y: f32 = -1.0;
         let _sqrt_y = match y.generic_sqrt() {
             Ok(value) => value,
             Err(_) => panic!("Invalid value for sqrt")
         };
+    }
+
+    #[test]
+    fn float_norm_sqrt() {
+        let x: f64 = -2.0;
+        let sqrt_x = match x.norm_sqrt() {
+            Ok(value) => value,
+            Err(_) => panic!("Un-espected error")
+        };
+        assert_approx_eq!(
+            sqrt_x,
+            1.414f64,
+            10e-2f64
+        );
+
+        let x: f32 = -4233.39024;
+        let sqrt_x = match x.norm_sqrt() {
+            Ok(value) => value,
+            Err(_) => panic!("Un-espected error")
+        };
+        assert_approx_eq!(
+            sqrt_x,
+            65.0645f32,
+            10e-2f32
+        );
     }
 }
