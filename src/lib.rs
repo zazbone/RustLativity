@@ -1,5 +1,5 @@
 pub mod algebra;
-mod _utils;
+pub mod utils;
 
 
 #[cfg(test)]
