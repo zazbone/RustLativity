@@ -11,5 +11,10 @@ Final objectiv is to cover most of tools like Lorentz Matrix or quadrivector....
 Limited by whitch ones is contained in [special relativity Wikipedia page](https://en.wikipedia.org/wiki/Special_relativity)
 
 ## Build
-Current build status is fail, (current commit litterally fail to build).
 Stability will not be garanted until first release, because the crate not contain enouth features to be considered as stable.
+
+| Part           	| Build status 	| Implemented 	| Tested   	| Documented 	|
+|----------------	|--------------	|-------------	|----------	|------------	|
+| Linear algebra 	| Build        	| Partialy    	| Partialy 	| Cheap      	|
+| Studies        	| Fail         	| No          	| No       	| No         	|
+| Utils          	| Build        	|             	| Yes      	| Yes        	|
