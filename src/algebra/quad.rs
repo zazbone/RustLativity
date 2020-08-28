@@ -15,20 +15,21 @@ use std::string::String;
 
 
 #[derive(Debug, Copy, Clone, PartialEq)]
-/// Define what physics phenomena the QuadVector<T> should represent
-pub enum QuadVectorType {
-    FourPosition,
-    FourVelocity,
-    FourMomentum
+/// Define what physics phenomena the FourVector<T> should represent
+pub enum FourVectorType {
+    Event,
+    Velocity,
+    Momentum,
+    EnrgImpulsion
 }
 
 
 #[derive(Debug, Copy, Clone)]
 /// Elementary data type to represent all special relativity phenomena\
 /// Should use as T type value that can take floating point value like f64 or decimal from external crate
-pub struct QuadVector<T> {
-    /// Look at QuadVectorType
-    pub representation: QuadVectorType,
+pub struct FourVector<T> {
+    /// Look at FourVectorType
+    pub representation: FourVectorType,
     /// Space time coordinate
     pub coordinate: [T; 4],
     /// Standard basis, (+, −, −, −) signature if set true else (-, +, +, +)\
@@ -51,15 +52,15 @@ pub trait Getters<T> {
 /// Set of initialisation function
 pub trait Init<T> {
     /// Basic init function
-    fn new(rep: QuadVectorType, w: T, x: T, y: T, z: T, sig: bool) -> Self;
+    fn new(rep: FourVectorType, w: T, x: T, y: T, z: T, sig: bool) -> Self;
 }
 
 /// Required methodes to perform crate calculation
 pub trait LinearAlgebra<T> {
-    /// Perform dot product betwin two QuadVector<T>, return a scalar
+    /// Perform dot product betwin two FourVector<T>, return a scalar
     fn dot(&self, other: &Self) -> T;
 
-    /// Return QuadVector lenght.\
+    /// Return FourVector lenght.\
     /// Followin this schematic: sqrt(w * w' - x * x' - y * y' - z * z') for
     /// Standard basis, (+, −, −, −) signature\
     /// and sqrt(- w * w' + x * x' + y * y' + z * z') for
@@ -68,11 +69,11 @@ pub trait LinearAlgebra<T> {
 
     /// Return the normelized vector by performing vec / vec.norm()\
     /// You may not wan't use this methode if you use integer value as T type
-    fn normelized(&self) -> QuadVector<T>;
+    fn normelized(&self) -> FourVector<T>;
 }
 
 
-impl<T> Getters<T> for QuadVector<T> where
+impl<T> Getters<T> for FourVector<T> where
     T: Copy
 {
     fn w(&self) -> T {
@@ -92,9 +93,9 @@ impl<T> Getters<T> for QuadVector<T> where
     }
 }
 
-impl<T> Init<T> for QuadVector<T>
+impl<T> Init<T> for FourVector<T>
 {
-    fn new(rep: QuadVectorType, w: T, x: T, y: T, z: T, sig: bool) -> Self {
+    fn new(rep: FourVectorType, w: T, x: T, y: T, z: T, sig: bool) -> Self {
         Self {
             representation: rep,
             coordinate: [w, x, y, z],
@@ -103,7 +104,7 @@ impl<T> Init<T> for QuadVector<T>
     }
 }
 
-impl<T> LinearAlgebra<T> for QuadVector<T> where
+impl<T> LinearAlgebra<T> for FourVector<T> where
     T: Mul<Output = T> + SubAssign + Sqrt<T> + Neg<Output=T> + Copy
 {
     /// Quadrivector must have same signature
@@ -129,14 +130,14 @@ impl<T> LinearAlgebra<T> for QuadVector<T> where
         }
     }
 
-    fn normelized(&self) -> QuadVector<T> {
+    fn normelized(&self) -> FourVector<T> {
         *self
     }
 }
 
 
-/// Use this insteed of PartialEq or Eq to compare two QuadVector<T>
-pub fn compare<T>(vector1: QuadVector<T>, vector2: QuadVector<T>) -> Result<bool, String> where
+/// Use this insteed of PartialEq or Eq to compare two FourVector<T>
+pub fn compare<T>(vector1: FourVector<T>, vector2: FourVector<T>) -> Result<bool, String> where
     T: PartialEq
 {
     if vector1.representation != vector2.representation {
@@ -153,10 +154,10 @@ pub fn compare<T>(vector1: QuadVector<T>, vector2: QuadVector<T>) -> Result<bool
 }
 
 
-impl<T> Div::<T> for &QuadVector<T> where
+impl<T> Div::<T> for &FourVector<T> where
     T: Div<T, Output=T> + Copy
 {
-    type Output = QuadVector<T>;
+    type Output = FourVector<T>;
 
     fn div(self, other: T) -> Self::Output {
         Self::Output {
@@ -172,7 +173,7 @@ impl<T> Div::<T> for &QuadVector<T> where
     }
 }
 
-impl<T> Index<usize> for QuadVector<T> {
+impl<T> Index<usize> for FourVector<T> {
     type Output = T;
 
     fn index(&self, i: usize) -> &Self::Output {
@@ -192,7 +193,7 @@ mod tests {
 
     #[test]
     fn getters() {
-        let quad: QuadVector<u8> = QuadVector::new(QuadVectorType::FourPosition, 12, 45, 2, 0, true);
+        let quad: FourVector<u8> = FourVector::new(FourVectorType::Event, 12, 45, 2, 0, true);
         assert_eq!(quad.w(), 12);
         assert_ne!(quad.x(), 23);
         assert_eq!(quad.y(), quad[2]);
@@ -202,7 +203,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn crash_test() {
-        let quad: QuadVector<i32> = QuadVector::new(QuadVectorType::FourPosition, 21, 41, -12, -67, true);
+        let quad: FourVector<i32> = FourVector::new(FourVectorType::Event, 21, 41, -12, -67, true);
         quad[5];
     }
 }

@@ -16,5 +16,5 @@ Stability will not be garanted until first release, because the crate not contai
 | Part           	| Build status 	| Implemented 	| Tested   	| Documented 	|
 |----------------	|--------------	|-------------	|----------	|------------	|
 | Linear algebra 	| Build        	| Partialy    	| Partialy 	| Cheap      	|
-| Studies        	| Fail         	| No          	| No       	| No         	|
+| Frames        	| Fail         	| No          	| No       	| No         	|
 | Utils          	| Build        	|             	| Yes      	| Yes        	|

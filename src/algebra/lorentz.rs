@@ -1,4 +1,4 @@
-use crate::algebra::quad::QuadVector;
+use crate::algebra::quad::FourVector;
 
 
 use std::ops::{
@@ -15,21 +15,21 @@ pub struct LorentzMatrix<T> {
 
 
 trait LinearAlgebra<T> {
-    fn dot(&self, other: &QuadVector<T>) -> QuadVector<T>;
+    fn dot(&self, other: &FourVector<T>) -> FourVector<T>;
 }
 
 
 impl<T> LinearAlgebra<T> for LorentzMatrix<T> where
     T: Add<Output=T> + Mul<Output=T> + Copy
 {
-    fn dot(&self, other: &QuadVector<T>) -> QuadVector<T> {
+    fn dot(&self, other: &FourVector<T>) -> FourVector<T> {
         let coordinate: [T; 4] = [
             array4_scalar_product(&self[0], other[0]),
             array4_scalar_product(&self[1], other[1]),
             array4_scalar_product(&self[2], other[2]),
             array4_scalar_product(&self[3], other[3])
         ];
-        QuadVector {
+        FourVector {
             representation: other.representation,
             coordinate: coordinate,
             signature: other.signature
