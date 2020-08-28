@@ -33,7 +33,7 @@ pub struct FourVector<T> {
     /// Space time coordinate
     pub coordinate: [T; 4],
     /// Standard basis, (+, −, −, −) signature if set true else (-, +, +, +)\
-    /// /!\\ Use the same for every quadrivector
+    /// /!\\ Use the same for every FourVector
     pub signature: bool
 }
 
@@ -107,7 +107,7 @@ impl<T> Init<T> for FourVector<T>
 impl<T> LinearAlgebra<T> for FourVector<T> where
     T: Mul<Output = T> + SubAssign + Sqrt<T> + Neg<Output=T> + Copy
 {
-    /// Quadrivector must have same signature
+    /// FourVector must have same signature
     fn dot(&self, other: &Self) -> T {
         if self.signature != other.signature {
             panic!("Cannot process norm of two quadrivector with different representation")
