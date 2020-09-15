@@ -16,10 +16,11 @@ pub trait Init<T> {
 
 
 impl<T> Init<T> for Speed<T> where
-    T: Mul<Output=T> + Add<Output=T> + Div<Output=T> + Sqrt
+    T: Mul<Output=T> + Add<Output=T> + Div<Output=T> + Sqrt<T>
+        + Copy
 {
     fn new(x: T, y: T, z: T) -> Self {
-        let norm: T = (x * x + y * y + z * z).generic_sqrt();
+        let norm: T = T::generic_sqrt(&(x * x + y * y + z * z)).expect("Unexpected behavior");
         Self {
             direction: [
                 x / norm,
