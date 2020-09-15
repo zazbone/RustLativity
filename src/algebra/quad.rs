@@ -18,8 +18,8 @@ use std::string::String;
 /// Define what physics phenomena the FourVector<T> should represent
 pub enum FourVectorType {
     Event,
+    EventInterval,
     Velocity,
-    Momentum,
     EnrgImpulsion
 }
 

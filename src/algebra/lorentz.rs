@@ -24,10 +24,10 @@ impl<T> LinearAlgebra<T> for LorentzMatrix<T> where
 {
     fn dot(&self, other: &FourVector<T>) -> FourVector<T> {
         let coordinate: [T; 4] = [
-            array4_scalar_product(&self[0], other[0]),
-            array4_scalar_product(&self[1], other[1]),
-            array4_scalar_product(&self[2], other[2]),
-            array4_scalar_product(&self[3], other[3])
+            matrix4_scalar_product(&self[0], other[0]),
+            matrix4_scalar_product(&self[1], other[1]),
+            matrix4_scalar_product(&self[2], other[2]),
+            matrix4_scalar_product(&self[3], other[3])
         ];
         FourVector {
             representation: other.representation,
@@ -37,7 +37,7 @@ impl<T> LinearAlgebra<T> for LorentzMatrix<T> where
     }
 }
 
-fn array4_scalar_product<T>(array4: &[T; 4], scalar: T) -> T where
+fn matrix4_scalar_product<T>(array4: &[T; 4], scalar: T) -> T where
     T: Add<Output=T> + Mul<Output=T> + Copy
 {
     array4[0] * scalar + array4[1] * scalar + array4[2] * scalar + array4[3] * scalar
