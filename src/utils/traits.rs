@@ -1,10 +1,10 @@
 use std::marker::Sized;
 
-
 /// Square root generic definition
 /// Require for T type in trait crate::algebra::quad::LinearAlgebra<T>
-pub trait Sqrt<T> where
-    T: Sized
+pub trait Sqrt<T>
+where
+    T: Sized,
 {
     /// Mathematicly correct sqrt
     /// Must return Err(()) if sqrt(self) value is not mathematicly defined
@@ -14,7 +14,6 @@ pub trait Sqrt<T> where
     /// Return the square root of self mathematics norm
     fn norm_sqrt(&self) -> Result<T, ()>;
 }
-
 
 /// Implementation of Sqrt<T> for f64 type
 /// Mostly a warper of f64.sqrt()
@@ -62,36 +61,26 @@ impl Sqrt<f32> for f32 {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use assert_approx_eq::assert_approx_eq;
-
 
     #[test]
     fn float_sqrt() {
         let x: f64 = 2.0;
         let sqrt_x = match x.generic_sqrt() {
             Ok(value) => value,
-            Err(_) => panic!("Invalid value for sqrt")
+            Err(_) => panic!("Invalid value for sqrt"),
         };
-        assert_approx_eq!(
-            sqrt_x,
-            1.414f64,
-            10e-2f64
-        );
+        assert_approx_eq!(sqrt_x, 1.414f64, 10e-2f64);
 
         let x: f32 = 4233.39024;
         let sqrt_x = match x.generic_sqrt() {
             Ok(value) => value,
-            Err(_) => panic!("Invalid value for sqrt")
+            Err(_) => panic!("Invalid value for sqrt"),
         };
-        assert_approx_eq!(
-            sqrt_x,
-            65.0645f32,
-            10e-2f32
-        );
+        assert_approx_eq!(sqrt_x, 65.0645f32, 10e-2f32);
     }
 
     #[test]
@@ -100,13 +89,13 @@ mod tests {
         let y: f64 = -1.0;
         let _sqrt_y = match y.generic_sqrt() {
             Ok(value) => value,
-            Err(_) => panic!("Invalid value for sqrt")
+            Err(_) => panic!("Invalid value for sqrt"),
         };
 
         let y: f32 = -1.0;
         let _sqrt_y = match y.generic_sqrt() {
             Ok(value) => value,
-            Err(_) => panic!("Invalid value for sqrt")
+            Err(_) => panic!("Invalid value for sqrt"),
         };
     }
 
@@ -115,23 +104,15 @@ mod tests {
         let x: f64 = -2.0;
         let sqrt_x = match x.norm_sqrt() {
             Ok(value) => value,
-            Err(_) => panic!("Un-espected error")
+            Err(_) => panic!("Un-espected error"),
         };
-        assert_approx_eq!(
-            sqrt_x,
-            1.414f64,
-            10e-2f64
-        );
+        assert_approx_eq!(sqrt_x, 1.414f64, 10e-2f64);
 
         let x: f32 = -4233.39024;
         let sqrt_x = match x.norm_sqrt() {
             Ok(value) => value,
-            Err(_) => panic!("Un-espected error")
+            Err(_) => panic!("Un-espected error"),
         };
-        assert_approx_eq!(
-            sqrt_x,
-            65.0645f32,
-            10e-2f32
-        );
+        assert_approx_eq!(sqrt_x, 65.0645f32, 10e-2f32);
     }
 }

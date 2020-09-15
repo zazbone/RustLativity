@@ -4,7 +4,6 @@ pub trait Light<T> {
     fn light_speed() -> T;
 }
 
-
 impl Light<f32> for f32 {
     fn light_speed() -> f32 {
         299792458.0f32
@@ -52,7 +51,6 @@ impl Light<i128> for i128 {
         299792458i128
     }
 }
-
 
 #[cfg(test)]
 mod tests {

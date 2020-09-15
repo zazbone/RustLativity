@@ -1,18 +1,16 @@
 use crate::utils::traits::Sqrt;
 
-
 use std::ops::{
     // Operator
     Div,
-    Mul,
-    SubAssign,
-    Neg,
     // Accessor
-    Index
+    Index,
+    Mul,
+    Neg,
+    SubAssign,
 };
 use std::result::Result;
 use std::string::String;
-
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 /// Define what physics phenomena the FourVector<T> should represent
@@ -20,9 +18,8 @@ pub enum FourVectorType {
     Event,
     EventInterval,
     Velocity,
-    EnrgImpulsion
+    EnrgImpulsion,
 }
-
 
 #[derive(Debug, Copy, Clone)]
 /// Elementary data type to represent all special relativity phenomena\
@@ -34,9 +31,8 @@ pub struct FourVector<T> {
     pub coordinate: [T; 4],
     /// Standard basis, (+, −, −, −) signature if set true else (-, +, +, +)\
     /// /!\\ Use the same for every FourVector
-    pub signature: bool
+    pub signature: bool,
 }
-
 
 /// Return space time coordinate
 pub trait Getters<T> {
@@ -72,9 +68,9 @@ pub trait LinearAlgebra<T> {
     fn normelized(&self) -> FourVector<T>;
 }
 
-
-impl<T> Getters<T> for FourVector<T> where
-    T: Copy
+impl<T> Getters<T> for FourVector<T>
+where
+    T: Copy,
 {
     fn w(&self) -> T {
         self.coordinate[0]
@@ -93,19 +89,21 @@ impl<T> Getters<T> for FourVector<T> where
     }
 }
 
-impl<T> Init<T> for FourVector<T>
-{
+impl<T> Init<T> for FourVector<T> {
     fn new(rep: FourVectorType, w: T, x: T, y: T, z: T, sig: bool) -> Self {
         Self {
             representation: rep,
             coordinate: [w, x, y, z],
-            signature: sig
-         }
+            signature: sig,
+        }
     }
 }
 
-impl<T> LinearAlgebra<T> for FourVector<T> where
-    T: Mul<Output = T> + SubAssign + Sqrt<T> + Neg<Output=T> + Copy
+impl<T> LinearAlgebra<T> for FourVector<T>
+where
+    T: Mul<Output = T> + Neg<Output = T> + SubAssign
+        + Copy
+        + Sqrt<T>
 {
     /// FourVector must have same signature
     fn dot(&self, other: &Self) -> T {
@@ -116,7 +114,7 @@ impl<T> LinearAlgebra<T> for FourVector<T> where
         for i in 1..4 {
             out -= self.coordinate[i] * other.coordinate[i];
         }
-        if self.signature{
+        if self.signature {
             out
         } else {
             -out
@@ -126,7 +124,7 @@ impl<T> LinearAlgebra<T> for FourVector<T> where
     fn norm(&self) -> T {
         match Sqrt::norm_sqrt(&self.dot(self)) {
             Ok(value) => value,
-            Err(_) => panic!("Invalide value")
+            Err(_) => panic!("Invalide value"),
         }
     }
 
@@ -135,27 +133,26 @@ impl<T> LinearAlgebra<T> for FourVector<T> where
     }
 }
 
-
 /// Use this insteed of PartialEq or Eq to compare two FourVector<T>
-pub fn compare<T>(vector1: FourVector<T>, vector2: FourVector<T>) -> Result<bool, String> where
-    T: PartialEq
+pub fn compare<T>(vector1: FourVector<T>, vector2: FourVector<T>) -> Result<bool, String>
+where
+    T: PartialEq,
 {
     if vector1.representation != vector2.representation {
         return Err(String::from(
-            "Cannot compare two different physic phenomena."
-        ))
+            "Cannot compare two different physic phenomena.",
+        ));
     }
-    Ok(
-        vector1.coordinate[0] == vector2.coordinate[0] &&
-        vector1.coordinate[1] == vector2.coordinate[1] &&
-        vector1.coordinate[2] == vector2.coordinate[2] &&
-        vector1.coordinate[3] == vector2.coordinate[3]
-    )
+    Ok(vector1.coordinate[0] == vector2.coordinate[0]
+        && vector1.coordinate[1] == vector2.coordinate[1]
+        && vector1.coordinate[2] == vector2.coordinate[2]
+        && vector1.coordinate[3] == vector2.coordinate[3])
 }
 
-
-impl<T> Div::<T> for &FourVector<T> where
-    T: Div<T, Output=T> + Copy
+impl<T> Div<T> for &FourVector<T>
+where
+    T: Div<T, Output = T>
+        + Copy,
 {
     type Output = FourVector<T>;
 
@@ -166,9 +163,9 @@ impl<T> Div::<T> for &FourVector<T> where
                 self.coordinate[0] / other,
                 self.coordinate[1] / other,
                 self.coordinate[2] / other,
-                self.coordinate[3] / other
+                self.coordinate[3] / other,
             ],
-            signature: self.signature
+            signature: self.signature,
         }
     }
 }
@@ -180,16 +177,14 @@ impl<T> Index<usize> for FourVector<T> {
         match i {
             // TODO: edit code when `https://github.com/rust-lang/rust/issues/37854` issues corrected
             0 | 1 | 2 | 3 => &self.coordinate[i],
-            _ => panic!("Index {} out of range", i)
+            _ => panic!("Index {} out of range", i),
         }
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-
 
     #[test]
     fn getters() {
