@@ -6,7 +6,7 @@ use crate::utils::traits::Sqrt;
 
 pub struct Vec3<T> {
     direction: [T; 3],
-    lenght: T
+    pub lenght: T
 }
 
 
