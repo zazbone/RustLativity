@@ -7,7 +7,7 @@ read_doc:
 	$(BROWSER) file:target/doc/rustlativity/index.html
 
 count:
-	git ls-files *.rs | xargs wc -l
+	git ls-files src/**/*.rs | xargs wc -l
 
 git_log:
 	git log --graph --full-history --all --color \
