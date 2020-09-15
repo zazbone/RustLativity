@@ -8,7 +8,7 @@ documentation = ""
 readme = "README.md"
 homepage = ""
 repository = "https://github.com/zazbone/RustLativity"
-license-file = "gpl-3.0.txt"
+license-file = "LICENSE.txt"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
