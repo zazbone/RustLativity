@@ -1,6 +1,7 @@
-pub mod algebra;
-pub mod phy;
 pub mod utils;
+pub mod alg;
+pub mod math;
+
 
 #[cfg(test)]
 mod tests {

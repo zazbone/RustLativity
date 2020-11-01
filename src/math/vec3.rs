@@ -1,10 +1,10 @@
 use std::ops::{Add, Div, Mul};
 use std::option::Option;
 
-use crate::utils::traits::Sqrt;
+use crate::math::traits::Sqrt;
 
 pub struct Vec3<T> {
-    direction: [T; 3],
+    pub direction: [T; 3],
     pub lenght: T,
 }
 
@@ -44,7 +44,7 @@ impl<T> Init<T> for Vec3<T>
 where
     T: Add<T, Output = T> + Div<T, Output = T> + Mul<T, Output = T>
         + Copy
-        + Sqrt<T>
+        + Sqrt
 {
     fn new(x: T, y: T, z: T) -> Self {
         let lenght: T = T::generic_sqrt(&(x * x + y * y + z * z)).expect("Unexpected behavior");
@@ -74,6 +74,20 @@ where
         Self {
             direction: [x / lenght, y / lenght, z / lenght],
             lenght,
+        }
+    }
+}
+
+impl<T> Div<T> for Vec3<T>
+where
+    T: Div<Output=T>
+{
+    type Output = Vec3<T>;
+
+    fn div(self, other: T) -> Self::Output {
+        Self::Output {
+            direction: self.direction,
+            lenght: self.lenght / other
         }
     }
 }

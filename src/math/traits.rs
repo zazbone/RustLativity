@@ -1,23 +1,61 @@
 use std::marker::Sized;
+use std::ops::{
+    Neg,
+    // Basic math ops
+    Add, AddAssign,
+    Sub, SubAssign,
+    Mul, MulAssign,
+    Div, DivAssign
+};
+
+
+pub trait Values {
+    /// Mathematic zero value
+    const ZERO: Self;
+    /// Mathematic one value
+    const ONE: Self;
+    /// Mathematic negativ one value
+    const NEQ_ONE: Self;
+}
+
+
+pub trait MathOps:
+    Sized +
+    Neg<Output=Self> +
+    Add<Output=Self> + AddAssign +
+    Sub<Output=Self> + SubAssign +
+    Mul<Output=Self> + MulAssign +
+    Div<Output=Self> + DivAssign +
+{}
+
+
+impl<T> MathOps for T
+where
+T:
+    Sized +
+    Neg<Output=T> +
+    Add<Output=T> + AddAssign +
+    Sub<Output=T> + SubAssign +
+    Mul<Output=T> + MulAssign +
+    Div<Output=T> + DivAssign
+{}
 
 /// Square root generic definition
 /// Require for T type in trait crate::algebra::quad::LinearAlgebra<T>
-pub trait Sqrt<T>
-where
-    T: Sized,
+pub trait Sqrt: Sized
 {
     /// Mathematicly correct sqrt
     /// Must return Err(()) if sqrt(self) value is not mathematicly defined
     /// Look for norm_sqrt is self may take negativ value
-    fn generic_sqrt(&self) -> Result<T, ()>;
+    fn generic_sqrt(&self) -> Result<Self, ()>;
 
-    /// Return the square root of self mathematics norm
-    fn norm_sqrt(&self) -> Result<T, ()>;
+    /// Return the square root of self mathematical norm
+    fn norm_sqrt(&self) -> Result<Self, ()>;
 }
 
 /// Implementation of Sqrt<T> for f64 type
 /// Mostly a warper of f64.sqrt()
-impl Sqrt<f64> for f64 {
+impl Sqrt for f64 {
     /// Insted of returning NaN for invalid f64.sqrt() return Error.
     fn generic_sqrt(&self) -> Result<Self, ()> {
         let value: f64 = *self;
@@ -40,7 +78,7 @@ impl Sqrt<f64> for f64 {
 
 /// Implementation of Sqrt<T> for f32 type
 /// Mostly a warper of f32.sqrt()
-impl Sqrt<f32> for f32 {
+impl Sqrt for f32 {
     /// Insted of returning NaN for invalid f32.sqrt return Error.
     fn generic_sqrt(&self) -> Result<Self, ()> {
         let value: f32 = *self;
