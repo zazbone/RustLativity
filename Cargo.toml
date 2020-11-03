@@ -13,6 +13,7 @@ license-file = "LICENSE.txt"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+num = "0.3.0"
 
 [dev-dependencies]
 assert_approx_eq = "1.1.0"
